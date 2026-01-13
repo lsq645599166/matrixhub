@@ -118,6 +118,27 @@ func (h *Handler) Close() {
 
 // ServeHTTP implements the http.Handler interface.
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if h.authenticate == nil {
+		context.Set(r, "USER", "anonymous")
+		h.root.ServeHTTP(w, r)
+		return
+	}
+
+	user, password, ok := r.BasicAuth()
+	if !ok {
+		w.Header().Set("WWW-Authenticate", `Basic realm="matrixhub"`)
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	name, ret := h.authenticate.Authenticate(user, password)
+	if !ret {
+		w.Header().Set("WWW-Authenticate", `Basic realm="matrixhub"`)
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	context.Set(r, "USER", name)
 	h.root.ServeHTTP(w, r)
 }
 
@@ -145,31 +166,4 @@ func (h *Handler) router() *mux.Router {
 	h.registerWeb(r)
 
 	return r
-}
-
-func (h *Handler) requireAuth(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		if h.authenticate == nil {
-			context.Set(r, "USER", "anonymous")
-			next(w, r)
-			return
-		}
-
-		user, password, ok := r.BasicAuth()
-		if !ok {
-			w.Header().Set("WWW-Authenticate", `Basic realm="matrixhub"`)
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
-			return
-		}
-
-		name, ret := h.authenticate.Authenticate(user, password)
-		if !ret {
-			w.Header().Set("WWW-Authenticate", `Basic realm="matrixhub"`)
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
-			return
-		}
-
-		context.Set(r, "USER", name)
-		next(w, r)
-	}
 }

@@ -14,10 +14,10 @@ import (
 )
 
 func (h *Handler) registryRepositories(r *mux.Router) {
-	r.HandleFunc("/api/repositories", h.requireAuth(h.handleListRepositories)).Methods(http.MethodGet)
-	r.HandleFunc("/api/repositories/{repo:.+}.git", h.requireAuth(h.handleGetRepository)).Methods(http.MethodGet)
-	r.HandleFunc("/api/repositories/{repo:.+}.git", h.requireAuth(h.handleCreateRepository)).Methods(http.MethodPost)
-	r.HandleFunc("/api/repositories/{repo:.+}.git", h.requireAuth(h.handleDeleteRepository)).Methods(http.MethodDelete)
+	r.HandleFunc("/api/repositories", h.handleListRepositories).Methods(http.MethodGet)
+	r.HandleFunc("/api/repositories/{repo:.+}.git", h.handleGetRepository).Methods(http.MethodGet)
+	r.HandleFunc("/api/repositories/{repo:.+}.git", h.handleCreateRepository).Methods(http.MethodPost)
+	r.HandleFunc("/api/repositories/{repo:.+}.git", h.handleDeleteRepository).Methods(http.MethodDelete)
 }
 
 // validateRepoPath validates and constructs a repository path, ensuring it's within the root directory.

@@ -19,10 +19,10 @@ type importRequest struct {
 }
 
 func (h *Handler) registryRepositoriesImport(r *mux.Router) {
-	r.HandleFunc("/api/repositories/{repo:.+}.git/import", h.requireAuth(h.handleImportRepository)).Methods(http.MethodPost)
-	r.HandleFunc("/api/repositories/{repo:.+}.git/import/status", h.requireAuth(h.handleImportStatus)).Methods(http.MethodGet)
-	r.HandleFunc("/api/repositories/{repo:.+}.git/sync", h.requireAuth(h.handleSyncRepository)).Methods(http.MethodPost)
-	r.HandleFunc("/api/repositories/{repo:.+}.git/mirror", h.requireAuth(h.handleMirrorInfo)).Methods(http.MethodGet)
+	r.HandleFunc("/api/repositories/{repo:.+}.git/import", h.handleImportRepository).Methods(http.MethodPost)
+	r.HandleFunc("/api/repositories/{repo:.+}.git/import/status", h.handleImportStatus).Methods(http.MethodGet)
+	r.HandleFunc("/api/repositories/{repo:.+}.git/sync", h.handleSyncRepository).Methods(http.MethodPost)
+	r.HandleFunc("/api/repositories/{repo:.+}.git/mirror", h.handleMirrorInfo).Methods(http.MethodGet)
 }
 
 // handleImportRepository handles the import of a repository from a source URL.
