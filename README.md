@@ -8,7 +8,7 @@ MatrixHub streamlines the transition from public model hubs to production-grade 
 
 * **Zero-Wait Distribution**: Eliminate bandwidth bottlenecks with a **"Pull-once, serve-all"** cache, enabling 10Gbps+ speeds across 100+ GPU nodes simultaneously.
 * **Air-Gapped Delivery**: Securely ferry models into isolated networks while maintaining a native `HF_ENDPOINT` experience for researchers—no internet required.
-* **Unified Governance**: Centralize fine-tuned weights with **Tag locking** and CI/CD integration to guarantee absolute consistency from development to production.
+* **Private AI model Registry**: Centralize fine-tuned weights with **Tag locking** and CI/CD integration to guarantee absolute consistency from development to production.
 * **Global Multi-Region Sync**: Automate asynchronous, resumable replication between data centers for high availability and low-latency local access.
 
 ## 🛠️ Core Features
