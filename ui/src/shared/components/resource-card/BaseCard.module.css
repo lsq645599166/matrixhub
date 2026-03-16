@@ -24,7 +24,6 @@
   outline-offset: 2px;
 }
 
-
 .badgeRow {
   overflow: hidden;
 }
@@ -33,3 +32,4 @@
   display: flex;
   flex-shrink: 0;
 }
+

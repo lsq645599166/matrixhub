@@ -1,55 +1,37 @@
 import {
   ActionIcon,
-  Badge,
   CopyButton,
   Group,
   rem,
   Text,
   Tooltip,
 } from '@mantine/core'
-import { type Label } from '@matrixhub/api-ts/v1alpha1/model.pb.ts'
-import {
-  IconCopy as CopyIcon,
-  IconFileDescription as FileIcon,
-} from '@tabler/icons-react'
 import { Link } from '@tanstack/react-router'
-import { type ReactNode } from 'react'
+import { Fragment, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import CopyIcon from '@/assets/svgs/copy.svg?react'
+import { BaseBadge } from '@/shared/components/badges/BaseBadge'
+
+import type { ResourceBadge, ResourceMetaItem } from '@/shared/components/resource-card/BaseCard'
 
 interface ResourceDetailHeaderProps {
   projectId: string
   name: string
-  size?: string
-  updatedAt?: string
-  labels?: Label[]
   actions?: ReactNode
+  badges?: ResourceBadge[]
+  metaItems?: ResourceMetaItem[]
 }
 
 export function ResourceDetailHeader({
   projectId,
   name,
-  size,
-  updatedAt,
-  labels,
+  badges,
   actions,
+  metaItems,
 }: ResourceDetailHeaderProps) {
   const { t } = useTranslation()
   const fullName = `${projectId}/${name}`
-
-  const metaItems = [
-    {
-      label: t('common.fromProject'),
-      value: projectId,
-    },
-    {
-      label: t('common.modelSize'),
-      value: size ?? '-',
-    },
-    {
-      label: t('common.updatedAt'),
-      value: updatedAt ?? '-',
-    },
-  ]
 
   return (
     <>
@@ -74,7 +56,7 @@ export function ResourceDetailHeader({
             }) => (
               <Tooltip label={copied ? t('common.copied') : t('common.copyName')} withArrow>
                 <ActionIcon variant="subtle" color="gray" onClick={copy} size={24}>
-                  <CopyIcon size={16} />
+                  <CopyIcon />
                 </ActionIcon>
               </Tooltip>
             )}
@@ -83,34 +65,33 @@ export function ResourceDetailHeader({
         {actions && <Group gap="sm">{actions}</Group>}
       </Group>
 
-      {labels?.length && (
-        <Group gap={8} mb={12}>
-          {labels.map(label => (
-            <Badge
-              key={label.id}
-              variant="light"
-              color="gray"
-              leftSection={<FileIcon size={14} />}
-              size="md"
-              radius="xl"
-              fw={600}
-              h={24}
-            >
-              {label.name}
-            </Badge>
+      {badges?.length && (
+        <Group gap={8} mb={12} wrap="nowrap">
+          {badges.map(badge => (
+            <Fragment key={badge.key}>
+              {badge.content ?? (
+                <BaseBadge
+                  icon={badge.icon}
+                  label={badge.label}
+                  maw={132}
+                />
+              )}
+            </Fragment>
           ))}
         </Group>
       )}
 
-      <Group gap={24} fz="xs" lh={rem(20)} c="dimmed">
-        {metaItems.map(item => (
-          <span key={item.label}>
-            {item.label}
-            {t('common.colon')}
-            {item.value}
-          </span>
-        ))}
-      </Group>
+      {metaItems?.length && (
+        <Group gap={24} fz="xs" lh={rem(20)} c="dimmed">
+          {metaItems?.map(item => (
+            <span key={item.label}>
+              {item.label}
+              {t('common.colon')}
+              {item.value}
+            </span>
+          ))}
+        </Group>
+      )}
     </>
   )
 }

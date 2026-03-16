@@ -1,49 +1,53 @@
 import {
-  Badge,
   Card,
   Group,
   Stack,
   Text,
 } from '@mantine/core'
-import { IconDots as DotsIcon } from '@tabler/icons-react'
+import { Fragment } from 'react'
 
-import classes from './ResourceCard.module.css'
+import DotsIcon from '@/assets/svgs/dots.svg?react'
+import { BaseBadge } from '@/shared/components/badges/BaseBadge'
+
+import classes from './BaseCard.module.css'
 
 import type { ReactNode } from 'react'
 
-export interface ResourceCardBadge {
+export interface ResourceBadge {
   key: string | number
+  content?: ReactNode
   icon?: ReactNode
-  label: string
+  label?: ReactNode
 }
 
-export interface ResourceCardMetaItem {
+export interface ResourceMetaItem {
   key: string
+  label: string
   icon?: ReactNode
   value: ReactNode
 }
 
-interface ResourceCardProps {
+interface BaseCardProps {
   title?: ReactNode
-  badges?: ResourceCardBadge[]
+  badges?: ResourceBadge[]
   maxBadges?: number
-  metaItems?: ResourceCardMetaItem[]
+  metaItems?: ResourceMetaItem[]
   renderMeta?: () => ReactNode
   renderRoot?: (props: Record<string, unknown>) => ReactNode
 }
 
-const EMPTY_BADGES: ResourceCardBadge[] = []
-const EMPTY_META_ITEMS: ResourceCardMetaItem[] = []
+const EMPTY_BADGES: ResourceBadge[] = []
+const EMPTY_META_ITEMS: ResourceMetaItem[] = []
 const DEFAULT_MAX_BADGES = 3
 
-export function ResourceCard({
+export function BaseCard({
   title,
   badges = EMPTY_BADGES,
   maxBadges = DEFAULT_MAX_BADGES,
   metaItems = EMPTY_META_ITEMS,
   renderMeta,
   renderRoot,
-}: ResourceCardProps) {
+}: BaseCardProps) {
   const isInteractive = Boolean(renderRoot)
   const hasOverflow = badges.length > maxBadges
   const visibleBadges = hasOverflow ? badges.slice(0, maxBadges) : badges
@@ -75,55 +79,24 @@ export function ResourceCard({
         {visibleBadges.length > 0 && (
           <Group gap={8} wrap="nowrap" className={classes.badgeRow}>
             {visibleBadges.map(badge => (
-              <Badge
-                key={badge.key}
-                h={24}
-                radius={16}
-                maw={132}
-                styles={{
-                  root: {
-                    backgroundColor: 'var(--mantine-color-gray-1)',
-                    paddingInline: 12,
-                  },
-                  label: {
-                    paddingInline: 0,
-                    textTransform: 'none',
-                  },
-                }}
-              >
-                <Group gap={4} wrap="nowrap" miw={0}>
-                  {badge.icon && (
-                    <span className={classes.iconSlot}>{badge.icon}</span>
-                  )}
-                  <Text
-                    component="span"
-                    size="12px"
-                    lh="20px"
-                    fw={600}
-                    c="gray.6"
-                    truncate="end"
-                    miw={0}
-                  >
-                    {badge.label}
-                  </Text>
-                </Group>
-              </Badge>
+              <Fragment key={badge.key}>
+                {badge.content ?? (
+                  <BaseBadge
+                    icon={badge.icon}
+                    label={badge.label}
+                    maw={132}
+                  />
+                )}
+              </Fragment>
             ))}
 
             {hasOverflow && (
-              <Badge
-                h={24}
-                radius={16}
+              <BaseBadge
                 maw={32}
                 miw={32}
                 styles={{
                   root: {
-                    backgroundColor: 'var(--mantine-color-gray-1)',
                     paddingInline: 8,
-                  },
-                  label: {
-                    paddingInline: 0,
-                    textTransform: 'none',
                   },
                 }}
               >
@@ -132,7 +105,7 @@ export function ResourceCard({
                   height={3}
                   style={{ color: 'var(--mantine-color-gray-6)' }}
                 />
-              </Badge>
+              </BaseBadge>
             )}
           </Group>
         )}

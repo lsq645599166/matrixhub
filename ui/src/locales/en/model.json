@@ -1,6 +1,18 @@
 {
   "upload": "Upload Model Files",
   "download": "Download Model",
+  "new": "Create New Model",
+  "project": "Project",
+  "library": "Library",
+  "task": "Task",
+  "placeholder": {
+    "task": "Search by task name",
+    "library": "Search by library name",
+    "project": "Search by project name"
+  },
+  "recommend": "Recommended Models",
+  "allModels": "All Models",
+  "viewMore": "View More",
   "detail": {
     "desc": "Model Introduction",
     "tree": "Model Files",

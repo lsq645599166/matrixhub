@@ -3,7 +3,7 @@ import {
 } from '@tanstack/react-router'
 import { lazy, Suspense } from 'react'
 
-import { CurrentUserContext } from '@/context/current-user-context.tsx'
+import { CurrentUserContext } from '@/context/current-user-context'
 import i18n from '@/i18n'
 
 import type { QueryClient } from '@tanstack/react-query'

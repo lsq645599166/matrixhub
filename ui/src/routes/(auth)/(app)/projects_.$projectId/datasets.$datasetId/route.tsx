@@ -87,7 +87,7 @@ function DatasetLayout() {
   } = Route.useParams()
 
   const {
-    dataset, projectRoles,
+    projectRoles,
   } = Route.useLoaderData()
 
   const hasProjectRole = Object.hasOwn(projectRoles.projectRoles ?? {}, projectId)
@@ -138,9 +138,6 @@ function DatasetLayout() {
         <ResourceDetailHeader
           projectId={projectId}
           name={datasetId}
-          size={dataset.size}
-          updatedAt={dataset.updatedAt}
-          labels={dataset.labels}
           actions={(
             <>
               <Button

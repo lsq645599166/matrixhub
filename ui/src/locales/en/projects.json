@@ -15,5 +15,11 @@
       "emptyDescription": "This project does not contain any models.",
       "loadFailed": "Failed to load models. Please try again later."
     }
-  }
+  },
+  "type": {
+    "private": "Private",
+    "public": "Public"
+  },
+  "modelCount": "Model Count",
+  "datasetCount": "Dataset Count"
 }

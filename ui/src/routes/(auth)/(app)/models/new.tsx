@@ -13,7 +13,7 @@ function RouteComponent() {
 
   return (
     <Box p="md">
-      <Title order={3}>{t('models.new', 'Create New Model')}</Title>
+      <Title order={3}>{t('model.new', 'Create New Model')}</Title>
       {/* TODO: Add model creation form */}
     </Box>
   )
