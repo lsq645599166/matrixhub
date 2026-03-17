@@ -1564,7 +1564,7 @@ type Commit struct {
 	AuthorDate     string                 `protobuf:"bytes,5,opt,name=author_date,json=authorDate,proto3" json:"author_date,omitempty"`
 	CommitterName  string                 `protobuf:"bytes,6,opt,name=committer_name,json=committerName,proto3" json:"committer_name,omitempty"`
 	CommitterEmail string                 `protobuf:"bytes,7,opt,name=committer_email,json=committerEmail,proto3" json:"committer_email,omitempty"`
-	Diffs          []*Diff                `protobuf:"bytes,8,rep,name=diffs,proto3" json:"diffs,omitempty"`
+	Diff           string                 `protobuf:"bytes,8,opt,name=diff,proto3" json:"diff,omitempty"`
 	CreatedAt      string                 `protobuf:"bytes,9,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt      string                 `protobuf:"bytes,10,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -1650,11 +1650,11 @@ func (x *Commit) GetCommitterEmail() string {
 	return ""
 }
 
-func (x *Commit) GetDiffs() []*Diff {
+func (x *Commit) GetDiff() string {
 	if x != nil {
-		return x.Diffs
+		return x.Diff
 	}
-	return nil
+	return ""
 }
 
 func (x *Commit) GetCreatedAt() string {
@@ -1919,7 +1919,7 @@ const file_v1alpha1_model_proto_rawDesc = "" +
 	"\assh_url\x18\x01 \x01(\tR\x06sshUrl\x12\x19\n" +
 	"\bhttp_url\x18\x02 \x01(\tR\ahttpUrl\"\x1e\n" +
 	"\bRevision\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"\xd5\x02\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"\xb9\x02\n" +
 	"\x06Commit\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12\x1f\n" +
@@ -1929,8 +1929,8 @@ const file_v1alpha1_model_proto_rawDesc = "" +
 	"\vauthor_date\x18\x05 \x01(\tR\n" +
 	"authorDate\x12%\n" +
 	"\x0ecommitter_name\x18\x06 \x01(\tR\rcommitterName\x12'\n" +
-	"\x0fcommitter_email\x18\a \x01(\tR\x0ecommitterEmail\x12.\n" +
-	"\x05diffs\x18\b \x03(\v2\x18.matrixhub.v1alpha1.DiffR\x05diffs\x12\x1d\n" +
+	"\x0fcommitter_email\x18\a \x01(\tR\x0ecommitterEmail\x12\x12\n" +
+	"\x04diff\x18\b \x01(\tR\x04diff\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\t \x01(\tR\tcreatedAt\x12\x1d\n" +
 	"\n" +
@@ -2031,35 +2031,34 @@ var file_v1alpha1_model_proto_depIdxs = []int32{
 	20, // 11: matrixhub.v1alpha1.GetModelTreeResponse.items:type_name -> matrixhub.v1alpha1.Files
 	25, // 12: matrixhub.v1alpha1.Model.clone_urls:type_name -> matrixhub.v1alpha1.CloneUrls
 	29, // 13: matrixhub.v1alpha1.Model.labels:type_name -> matrixhub.v1alpha1.Label
-	28, // 14: matrixhub.v1alpha1.Commit.diffs:type_name -> matrixhub.v1alpha1.Diff
-	1,  // 15: matrixhub.v1alpha1.Label.category:type_name -> matrixhub.v1alpha1.Category
-	2,  // 16: matrixhub.v1alpha1.Models.ListModelTaskLabels:input_type -> matrixhub.v1alpha1.ListModelTaskLabelsRequest
-	4,  // 17: matrixhub.v1alpha1.Models.ListModelFrameLabels:input_type -> matrixhub.v1alpha1.ListModelFrameLabelsRequest
-	6,  // 18: matrixhub.v1alpha1.Models.ListModels:input_type -> matrixhub.v1alpha1.ListModelsRequest
-	8,  // 19: matrixhub.v1alpha1.Models.GetModel:input_type -> matrixhub.v1alpha1.GetModelRequest
-	9,  // 20: matrixhub.v1alpha1.Models.CreateModel:input_type -> matrixhub.v1alpha1.CreateModelRequest
-	11, // 21: matrixhub.v1alpha1.Models.DeleteModel:input_type -> matrixhub.v1alpha1.DeleteModelRequest
-	13, // 22: matrixhub.v1alpha1.Models.ListModelRevisions:input_type -> matrixhub.v1alpha1.ListModelRevisionsRequest
-	16, // 23: matrixhub.v1alpha1.Models.ListModelCommits:input_type -> matrixhub.v1alpha1.ListModelCommitsRequest
-	18, // 24: matrixhub.v1alpha1.Models.GetModelCommit:input_type -> matrixhub.v1alpha1.GetModelCommitRequest
-	19, // 25: matrixhub.v1alpha1.Models.GetModelTree:input_type -> matrixhub.v1alpha1.GetModelTreeRequest
-	22, // 26: matrixhub.v1alpha1.Models.GetModelBlob:input_type -> matrixhub.v1alpha1.GetModelBlobRequest
-	3,  // 27: matrixhub.v1alpha1.Models.ListModelTaskLabels:output_type -> matrixhub.v1alpha1.ListModelTaskLabelsResponse
-	5,  // 28: matrixhub.v1alpha1.Models.ListModelFrameLabels:output_type -> matrixhub.v1alpha1.ListModelFrameLabelsResponse
-	7,  // 29: matrixhub.v1alpha1.Models.ListModels:output_type -> matrixhub.v1alpha1.ListModelsResponse
-	24, // 30: matrixhub.v1alpha1.Models.GetModel:output_type -> matrixhub.v1alpha1.Model
-	10, // 31: matrixhub.v1alpha1.Models.CreateModel:output_type -> matrixhub.v1alpha1.CreateModelResponse
-	12, // 32: matrixhub.v1alpha1.Models.DeleteModel:output_type -> matrixhub.v1alpha1.DeleteModelResponse
-	14, // 33: matrixhub.v1alpha1.Models.ListModelRevisions:output_type -> matrixhub.v1alpha1.ListModelRevisionsResponse
-	17, // 34: matrixhub.v1alpha1.Models.ListModelCommits:output_type -> matrixhub.v1alpha1.ListModelCommitsResponse
-	27, // 35: matrixhub.v1alpha1.Models.GetModelCommit:output_type -> matrixhub.v1alpha1.Commit
-	21, // 36: matrixhub.v1alpha1.Models.GetModelTree:output_type -> matrixhub.v1alpha1.GetModelTreeResponse
-	23, // 37: matrixhub.v1alpha1.Models.GetModelBlob:output_type -> matrixhub.v1alpha1.GetModelBlobResponse
-	27, // [27:38] is the sub-list for method output_type
-	16, // [16:27] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	1,  // 14: matrixhub.v1alpha1.Label.category:type_name -> matrixhub.v1alpha1.Category
+	2,  // 15: matrixhub.v1alpha1.Models.ListModelTaskLabels:input_type -> matrixhub.v1alpha1.ListModelTaskLabelsRequest
+	4,  // 16: matrixhub.v1alpha1.Models.ListModelFrameLabels:input_type -> matrixhub.v1alpha1.ListModelFrameLabelsRequest
+	6,  // 17: matrixhub.v1alpha1.Models.ListModels:input_type -> matrixhub.v1alpha1.ListModelsRequest
+	8,  // 18: matrixhub.v1alpha1.Models.GetModel:input_type -> matrixhub.v1alpha1.GetModelRequest
+	9,  // 19: matrixhub.v1alpha1.Models.CreateModel:input_type -> matrixhub.v1alpha1.CreateModelRequest
+	11, // 20: matrixhub.v1alpha1.Models.DeleteModel:input_type -> matrixhub.v1alpha1.DeleteModelRequest
+	13, // 21: matrixhub.v1alpha1.Models.ListModelRevisions:input_type -> matrixhub.v1alpha1.ListModelRevisionsRequest
+	16, // 22: matrixhub.v1alpha1.Models.ListModelCommits:input_type -> matrixhub.v1alpha1.ListModelCommitsRequest
+	18, // 23: matrixhub.v1alpha1.Models.GetModelCommit:input_type -> matrixhub.v1alpha1.GetModelCommitRequest
+	19, // 24: matrixhub.v1alpha1.Models.GetModelTree:input_type -> matrixhub.v1alpha1.GetModelTreeRequest
+	22, // 25: matrixhub.v1alpha1.Models.GetModelBlob:input_type -> matrixhub.v1alpha1.GetModelBlobRequest
+	3,  // 26: matrixhub.v1alpha1.Models.ListModelTaskLabels:output_type -> matrixhub.v1alpha1.ListModelTaskLabelsResponse
+	5,  // 27: matrixhub.v1alpha1.Models.ListModelFrameLabels:output_type -> matrixhub.v1alpha1.ListModelFrameLabelsResponse
+	7,  // 28: matrixhub.v1alpha1.Models.ListModels:output_type -> matrixhub.v1alpha1.ListModelsResponse
+	24, // 29: matrixhub.v1alpha1.Models.GetModel:output_type -> matrixhub.v1alpha1.Model
+	10, // 30: matrixhub.v1alpha1.Models.CreateModel:output_type -> matrixhub.v1alpha1.CreateModelResponse
+	12, // 31: matrixhub.v1alpha1.Models.DeleteModel:output_type -> matrixhub.v1alpha1.DeleteModelResponse
+	14, // 32: matrixhub.v1alpha1.Models.ListModelRevisions:output_type -> matrixhub.v1alpha1.ListModelRevisionsResponse
+	17, // 33: matrixhub.v1alpha1.Models.ListModelCommits:output_type -> matrixhub.v1alpha1.ListModelCommitsResponse
+	27, // 34: matrixhub.v1alpha1.Models.GetModelCommit:output_type -> matrixhub.v1alpha1.Commit
+	21, // 35: matrixhub.v1alpha1.Models.GetModelTree:output_type -> matrixhub.v1alpha1.GetModelTreeResponse
+	23, // 36: matrixhub.v1alpha1.Models.GetModelBlob:output_type -> matrixhub.v1alpha1.GetModelBlobResponse
+	26, // [26:37] is the sub-list for method output_type
+	15, // [15:26] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_v1alpha1_model_proto_init() }
