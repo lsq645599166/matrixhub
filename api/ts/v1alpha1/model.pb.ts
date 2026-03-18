@@ -167,7 +167,7 @@ export type Commit = {
   authorDate?: string
   committerName?: string
   committerEmail?: string
-  diffs?: Diff[]
+  diff?: string
   createdAt?: string
   updatedAt?: string
 }

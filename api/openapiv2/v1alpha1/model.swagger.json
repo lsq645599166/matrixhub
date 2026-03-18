@@ -563,12 +563,8 @@
         "committerEmail": {
           "type": "string"
         },
-        "diffs": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1alpha1Diff"
-          }
+        "diff": {
+          "type": "string"
         },
         "createdAt": {
           "type": "string"
@@ -594,23 +590,6 @@
     },
     "v1alpha1DeleteModelResponse": {
       "type": "object"
-    },
-    "v1alpha1Diff": {
-      "type": "object",
-      "properties": {
-        "diff": {
-          "type": "string"
-        },
-        "Deleted": {
-          "type": "boolean"
-        },
-        "newPath": {
-          "type": "string"
-        },
-        "oldPath": {
-          "type": "string"
-        }
-      }
     },
     "v1alpha1FileType": {
       "type": "string",

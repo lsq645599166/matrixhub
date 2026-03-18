@@ -231,7 +231,7 @@ message Commit {
   string author_date = 5;
   string committer_name = 6;
   string committer_email = 7;
-  repeated Diff diffs = 8;
+  string diff = 8;
   string created_at = 9;
   string updated_at = 10;
 }

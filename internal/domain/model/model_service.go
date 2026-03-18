@@ -173,6 +173,12 @@ func (s *ModelService) ListModelCommits(ctx context.Context, project, name, revi
 		return nil, 0, errors.New("invalid input")
 	}
 
+	// Check if model exists in database first
+	_, err := s.modelRepo.GetByProjectAndName(ctx, project, name)
+	if err != nil {
+		return nil, 0, err
+	}
+
 	// Set default values
 	if page <= 0 {
 		page = 1
@@ -197,6 +203,12 @@ func (s *ModelService) GetModelCommit(ctx context.Context, project, name, commit
 		return nil, errors.New("invalid input")
 	}
 
+	// Check if model exists in database first
+	_, err := s.modelRepo.GetByProjectAndName(ctx, project, name)
+	if err != nil {
+		return nil, err
+	}
+
 	return s.gitRepo.GetCommit(ctx, project, name, commitID)
 }
 
@@ -209,6 +221,12 @@ func (s *ModelService) GetModelTree(ctx context.Context, project, name, revision
 		return nil, errors.New("invalid input")
 	}
 
+	// Check if model exists in database first
+	_, err := s.modelRepo.GetByProjectAndName(ctx, project, name)
+	if err != nil {
+		return nil, err
+	}
+
 	return s.gitRepo.GetTree(ctx, project, name, revision, path)
 }
 
@@ -219,6 +237,12 @@ func (s *ModelService) GetModelBlob(ctx context.Context, project, name, revision
 	}
 	if name == "" {
 		return nil, errors.New("invalid input")
+	}
+
+	// Check if model exists in database first
+	_, err := s.modelRepo.GetByProjectAndName(ctx, project, name)
+	if err != nil {
+		return nil, err
 	}
 
 	return s.gitRepo.GetBlob(ctx, project, name, revision, path)

@@ -111,6 +111,40 @@ func revisionsToProto(revisions *git.Revisions) *modelv1alpha1.Revisions {
 	}
 }
 
+// commitToProto converts domain git.Commit to proto Commit
+func commitToProto(c *git.Commit) *modelv1alpha1.Commit {
+	return &modelv1alpha1.Commit{
+		Id:             c.ID,
+		Message:        c.Message,
+		AuthorName:     c.AuthorName,
+		AuthorEmail:    c.AuthorEmail,
+		AuthorDate:     c.AuthorDate.Format(time.RFC3339),
+		CommitterName:  c.CommitterName,
+		CommitterEmail: c.CommitterEmail,
+		Diff:           c.Diff,
+		CreatedAt:      c.CreatedAt.Format(time.RFC3339),
+		UpdatedAt:      c.UpdatedAt.Format(time.RFC3339),
+	}
+}
+
+// treeEntryToProtoFile converts domain git.TreeEntry to proto Files
+func treeEntryToProtoFile(entry *git.TreeEntry) *modelv1alpha1.Files {
+	var protoCommit *modelv1alpha1.Commit
+	if entry.Commit != nil {
+		protoCommit = commitToProto(entry.Commit)
+	}
+
+	return &modelv1alpha1.Files{
+		Name:   entry.Name,
+		Type:   modelv1alpha1.FileType(entry.Type),
+		Path:   entry.Path,
+		Size:   entry.Size,
+		Lfs:    entry.IsLFS,
+		Sha256: entry.Hash,
+		Commit: protoCommit,
+	}
+}
+
 func (mh *ModelHandler) RegisterToServer(options *ServerOptions) {
 	// Register GRPC Handler
 	modelv1alpha1.RegisterModelsServer(options.GRPCServer, mh)
@@ -282,15 +316,78 @@ func (mh *ModelHandler) ListModelRevisions(ctx context.Context, request *modelv1
 }
 
 func (mh *ModelHandler) ListModelCommits(ctx context.Context, request *modelv1alpha1.ListModelCommitsRequest) (*modelv1alpha1.ListModelCommitsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "Not implemented")
+	// Validate request
+	if err := request.ValidateAll(); err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	// Call service (diff parameter is ignored for now)
+	commits, total, err := mh.ms.ListModelCommits(ctx, request.Project, request.Name, request.Revision, int(request.Page), int(request.PageSize))
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return nil, status.Error(codes.NotFound, err.Error())
+		}
+		return nil, status.Error(codes.Internal, "failed to list commits")
+	}
+
+	// Convert to proto
+	items := make([]*modelv1alpha1.Commit, len(commits))
+	for i, c := range commits {
+		items[i] = commitToProto(c)
+	}
+
+	return &modelv1alpha1.ListModelCommitsResponse{
+		Items: items,
+		Pagination: &modelv1alpha1.Pagination{
+			Total:    int32(total),
+			Page:     request.Page,
+			PageSize: request.PageSize,
+		},
+	}, nil
 }
 
 func (mh *ModelHandler) GetModelCommit(ctx context.Context, request *modelv1alpha1.GetModelCommitRequest) (*modelv1alpha1.Commit, error) {
-	return nil, status.Error(codes.Unimplemented, "Not implemented")
+	// Validate request
+	if err := request.ValidateAll(); err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	// Call service
+	commit, err := mh.ms.GetModelCommit(ctx, request.Project, request.Name, request.Id)
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return nil, status.Error(codes.NotFound, err.Error())
+		}
+		return nil, status.Error(codes.Internal, "failed to get commit")
+	}
+
+	return commitToProto(commit), nil
 }
 
 func (mh *ModelHandler) GetModelTree(ctx context.Context, request *modelv1alpha1.GetModelTreeRequest) (*modelv1alpha1.GetModelTreeResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "Not implemented")
+	// Validate request
+	if err := request.ValidateAll(); err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	// Call service
+	entries, err := mh.ms.GetModelTree(ctx, request.Project, request.Name, request.Revision, request.Path)
+	if err != nil {
+		if strings.Contains(err.Error(), "not found") {
+			return nil, status.Error(codes.NotFound, err.Error())
+		}
+		return nil, status.Error(codes.Internal, "failed to get tree")
+	}
+
+	// Convert to proto
+	items := make([]*modelv1alpha1.Files, len(entries))
+	for i, entry := range entries {
+		items[i] = treeEntryToProtoFile(entry)
+	}
+
+	return &modelv1alpha1.GetModelTreeResponse{
+		Items: items,
+	}, nil
 }
 
 func (mh *ModelHandler) GetModelBlob(ctx context.Context, request *modelv1alpha1.GetModelBlobRequest) (*modelv1alpha1.GetModelBlobResponse, error) {
