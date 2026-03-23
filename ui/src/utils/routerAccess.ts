@@ -36,6 +36,18 @@ export function isNotFoundRouteError(error: unknown): error is NotFoundRouteErro
 
 export const notFoundError = () => new NotFoundRouteError()
 
+// ─── SDK error helpers ────────────────────────────────────────────────────────
+
+// SDK throws raw JSON body (not an Error instance); code 7 = PermissionDenied; message = "permission denied"
+export function isSdkPermissionDenied(error: unknown): boolean {
+  return (error as Record<string, unknown>)?.code === 7
+}
+
+// code 5 = NotFound; message = "not found"
+export function isSdkNotFound(error: unknown): boolean {
+  return (error as Record<string, unknown>)?.code === 5
+}
+
 // ─── Access guard ─────────────────────────────────────────────────────────────
 
 interface EnsureProjectAccessOptions {
