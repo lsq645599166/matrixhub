@@ -17,17 +17,27 @@ Router (navigation + prefetch)
 
 ### End-to-End Data Flow
 
+**Definition flow** — how you wire things up at the code level:
+
 ```
-schema → query → mutation → route loader → page → form submit → invalidation
+schema → query → mutation → route
 ```
 
 1. **Schema** — Zod schema defines the data shape and validation rules
 2. **Query** — `queryOptions()` factory wraps the SDK call with a cache key
 3. **Mutation** — `mutationOptions()` factory wraps the write call with notification meta
-4. **Route loader** — `ensureQueryData(queryOptions)` prefetches data on navigation
-5. **Page** — `useSuspenseQuery(queryOptions)` reads the cached data (guaranteed non-undefined)
-6. **Form submit** — `useForm({ onSubmit })` validates locally, then calls `mutation.mutateAsync()`
-7. **Invalidation** — `MutationCache.onSuccess` auto-invalidates via `meta.invalidates`; notifications fire globally
+4. **Route** — route file imports `queryOptions`, validates search params, and wires `loader` + page component
+
+**Runtime flow** — what happens when the user navigates and interacts:
+
+```
+loader → page → form submit → invalidation
+```
+
+1. **Loader** — `ensureQueryData(queryOptions)` prefetches data on navigation
+2. **Page** — `useSuspenseQuery(queryOptions)` reads the cached data (guaranteed non-undefined)
+3. **Form submit** — `useForm({ onSubmit })` validates locally, then calls `mutation.mutateAsync()`
+4. **Invalidation** — `MutationCache.onSuccess` auto-invalidates via `meta.invalidates`; notifications fire globally
 
 ### File Structure
 
