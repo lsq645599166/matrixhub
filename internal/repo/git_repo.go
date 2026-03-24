@@ -64,7 +64,11 @@ func (g *gitRepo) gitPath(repoType string, project, name string) string {
 func (g *gitRepo) buildURL(repoType, project, name, revision, path string) string {
 	if revision == "" {
 		revision = "main"
+	} else if strings.Contains(revision, "/") {
+		// If revision is a ref like refs/heads/main or refs/tags/v1, keep only the last part
+		revision = stdpath.Base(revision)
 	}
+
 	return fmt.Sprintf("/%s/%s/resolve/%s/%s", repoPrefix(repoType)+project, name, revision, path)
 }
 
@@ -271,8 +275,7 @@ func (g *gitRepo) GetTree(ctx context.Context, repoType, project, name, revision
 		return nil, err
 	}
 
-	revision = resolveRef(repo, revision)
-	entries, err := repo.Tree(revision, path, &repository.TreeOptions{
+	entries, err := repo.Tree(resolveRef(repo, revision), path, &repository.TreeOptions{
 		Recursive: false,
 	})
 	if err != nil {

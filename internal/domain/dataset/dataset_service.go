@@ -79,7 +79,8 @@ func (s *DatasetService) CreateDataset(ctx context.Context, project, name string
 	}
 
 	dataset := &Dataset{
-		Name: name,
+		Name:        name,
+		ProjectName: project,
 	}
 
 	if err := s.gitRepo.CreateRepository(ctx, "datasets", project, name); err != nil {
@@ -149,6 +150,12 @@ func (s *DatasetService) ListDatasetRevisions(ctx context.Context, project, name
 		return nil, errors.New("invalid input")
 	}
 
+	// Check if dataset exists in database first
+	_, err := s.datasetRepo.GetByProjectAndName(ctx, project, name)
+	if err != nil {
+		return nil, err
+	}
+
 	return s.gitRepo.ListRevisions(ctx, "datasets", project, name)
 }
 
@@ -159,6 +166,12 @@ func (s *DatasetService) ListDatasetCommits(ctx context.Context, project, name, 
 	}
 	if name == "" {
 		return nil, 0, errors.New("invalid input")
+	}
+
+	// Check if dataset exists in database first
+	_, err := s.datasetRepo.GetByProjectAndName(ctx, project, name)
+	if err != nil {
+		return nil, 0, err
 	}
 
 	// Set default values
@@ -184,6 +197,12 @@ func (s *DatasetService) GetDatasetCommit(ctx context.Context, project, name, co
 		return nil, errors.New("invalid input")
 	}
 
+	// Check if dataset exists in database first
+	_, err := s.datasetRepo.GetByProjectAndName(ctx, project, name)
+	if err != nil {
+		return nil, err
+	}
+
 	return s.gitRepo.GetCommit(ctx, "datasets", project, name, commitID)
 }
 
@@ -196,6 +215,12 @@ func (s *DatasetService) GetDatasetTree(ctx context.Context, project, name, revi
 		return nil, errors.New("invalid input")
 	}
 
+	// Check if dataset exists in database first
+	_, err := s.datasetRepo.GetByProjectAndName(ctx, project, name)
+	if err != nil {
+		return nil, err
+	}
+
 	return s.gitRepo.GetTree(ctx, "datasets", project, name, revision, path)
 }
 
@@ -206,6 +231,12 @@ func (s *DatasetService) GetDatasetBlob(ctx context.Context, project, name, revi
 	}
 	if name == "" {
 		return nil, errors.New("invalid input")
+	}
+
+	// Check if dataset exists in database first
+	_, err := s.datasetRepo.GetByProjectAndName(ctx, project, name)
+	if err != nil {
+		return nil, err
 	}
 
 	return s.gitRepo.GetBlob(ctx, "datasets", project, name, revision, path)
