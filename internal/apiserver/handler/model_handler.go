@@ -27,7 +27,7 @@ import (
 	"github.com/matrixhub-ai/matrixhub/internal/domain/git"
 	"github.com/matrixhub-ai/matrixhub/internal/domain/model"
 	"github.com/matrixhub-ai/matrixhub/internal/infra/log"
-	"github.com/matrixhub-ai/matrixhub/internal/utils"
+	"github.com/matrixhub-ai/matrixhub/internal/infra/utils"
 )
 
 type ModelHandler struct {
