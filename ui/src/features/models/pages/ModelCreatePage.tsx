@@ -24,6 +24,7 @@ import { modelProjectsQueryOptions } from '@/features/models/models.query.ts'
 import { createModelSchema } from '@/features/models/models.schema'
 import { ProjectTypeBadge } from '@/shared/components/badges/ProjectTypeBadge'
 
+// TODO: if initialProjectId provided, whether project selection should be disabled or not, confirm with PM
 interface ModelCreatePageProps {
   initialProjectId?: string
 }
