@@ -23,6 +23,9 @@
     }
   },
   "validation": {
-    "required": "Required"
+    "required": "Required",
+    "fieldRequired": "{{field}} is required",
+    "minLength": "{{field}} must be at least {{min}} characters",
+    "maxLength": "{{field}} must be at most {{max}} characters"
   }
 }
