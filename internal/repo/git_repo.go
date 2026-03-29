@@ -87,6 +87,26 @@ func resolveRef(repo *repository.Repository, rev string) string {
 	return rev
 }
 
+// convertCommitOperations converts domain CommitOperation slice to repository CommitOperation slice.
+func convertCommitOperations(ops []git.CommitOperation) []repository.CommitOperation {
+	result := make([]repository.CommitOperation, len(ops))
+	for i, op := range ops {
+		var typ repository.CommitOperationType
+		switch op.Type {
+		case git.CommitOperationAdd:
+			typ = repository.CommitOperationAdd
+		case git.CommitOperationDelete:
+			typ = repository.CommitOperationDelete
+		}
+		result[i] = repository.CommitOperation{
+			Type:    typ,
+			Path:    op.Path,
+			Content: op.Content,
+		}
+	}
+	return result
+}
+
 func isCommitSHA(s string) bool {
 	if len(s) != 40 {
 		return false
@@ -266,6 +286,22 @@ func (g *gitRepo) GetCommit(ctx context.Context, repoType, project, name, commit
 		CommitterDate:  c.Committer().When(),
 		CreatedAt:      c.Committer().When(),
 	}, nil
+}
+
+func (g *gitRepo) CreateCommit(ctx context.Context, repoType, project, name, revision string, commit *git.Commit, ops []git.CommitOperation) (string, error) {
+	gitPath := g.gitPath(repoType, project, name)
+	if !repository.IsRepository(gitPath) {
+		return "", fmt.Errorf("repository does not exist at %s", gitPath)
+	}
+	repo, err := repository.Open(gitPath)
+	if err != nil {
+		return "", err
+	}
+	commitHash, err := repo.CreateCommit(ctx, revision, commit.Message, commit.AuthorName, commit.AuthorEmail, convertCommitOperations(ops), commit.ParentCommit)
+	if err != nil {
+		return "", err
+	}
+	return commitHash, nil
 }
 
 // GetTree returns the file tree at a specific revision and path

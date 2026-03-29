@@ -233,7 +233,7 @@ func (server *APIServer) initBackends(handler http.Handler) http.Handler {
 		backendhf.WithPostReceiveHookFunc(postReceiveHookFunc),
 		backendhf.WithLFSStorage(lfsStorage),
 		backendhf.WithMiddlewares(middleware.HFAuthenticationMiddleware(server.repos.AccessToken)),
-		backendhf.WithServices(server.services.Model),
+		backendhf.WithServices(server.services.Model, server.repos.Git),
 	)
 
 	handler = backendlfs.NewHandler(
