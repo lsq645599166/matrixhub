@@ -1,0 +1,7 @@
+{
+  "title": "ログイン",
+  "username": "ユーザー名",
+  "password": "パスワード",
+  "rememberMe": "ログイン状態を保持する",
+  "submit": "ログイン"
+}

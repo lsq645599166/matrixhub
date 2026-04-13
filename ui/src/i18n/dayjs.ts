@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import 'dayjs/locale/en'
+import 'dayjs/locale/ja'
 import 'dayjs/locale/zh-cn'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
@@ -10,6 +11,7 @@ dayjs.extend(relativeTime)
 const dayjsLocaleMap: Record<SupportedLanguage, string> = {
   en: 'en',
   zh: 'zh-cn',
+  ja: 'ja',
 }
 
 export function setDayjsLocale(lang: SupportedLanguage) {

@@ -1,0 +1,47 @@
+{
+  "copied": "コピーしました",
+  "copyName": "名前をコピー",
+  "updatedAt": "更新日時",
+  "fromProject": "プロジェクト",
+  "modelSize": "サイズ",
+  "noResults": "結果がありません",
+  "required": "必須",
+  "confirm": "確認",
+  "cancel": "キャンセル",
+  "colon": "：",
+  "backgroundRefreshFailed": "バックグラウンドの更新に失敗しました",
+  "operationFailed": "操作に失敗しました",
+  "fileTree": {
+    "searchPlaceholder": "ファイル名を検索",
+    "commitsCount": "{{count}} コミット",
+    "name": "名前",
+    "size": "サイズ",
+    "lastCommit": "最終コミット",
+    "lastUpdate": "最終更新",
+    "download": "ダウンロード",
+    "updatedTime": "更新日時：{{time}}",
+    "preview": "プレビュー",
+    "code": "コード",
+    "pathNotFound": "ブランチ \"{{branch}}\" に \"{{path}}\" は存在しません",
+    "backToRoot": "ルートディレクトリへ戻る"
+  },
+  "errorPage": {
+    "backToHome": "ホームページへ戻る",
+    "404": {
+      "title": "ページが見つかりません",
+      "description": "お探しのページは存在しないか、移動した可能性があります。"
+    },
+    "403": {
+      "title": "アクセス拒否",
+      "description": "このページにアクセスするための権限が不足しています。"
+    }
+  },
+  "validation": {
+    "required": "必須",
+    "fieldRequired": "{{field}} は必須です",
+    "minLength": "{{field}} は {{min}} 文字以上である必要があります",
+    "maxLength": "{{field}} は {{max}} 文字以下である必要があります",
+    "nameStartChar": "英字または数字で始まる必要があります",
+    "nameInvalidChars": "小文字の英字、数字、ドット、アンダースコア、ハイフンのみ使用できます"
+  }
+}

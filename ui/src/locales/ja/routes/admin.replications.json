@@ -1,0 +1,95 @@
+{
+  "title": "リモート同期",
+  "searchPlaceholder": "名前で検索",
+  "toolbar": {
+    "create": "同期ルールを作成"
+  },
+  "table": {
+    "name": "名前",
+    "status": "ステータス",
+    "source": "ソースレジストリ",
+    "syncMode": "同期モード",
+    "target": "ターゲット：プロジェクト名",
+    "triggerType": "トリガーモード",
+    "bandwidth": "帯域幅",
+    "actions": "操作",
+    "empty": "同期ルールが見つかりません"
+  },
+  "status": {
+    "enabled": "有効",
+    "disabled": "無効"
+  },
+  "trigger": {
+    "manual": "手動",
+    "scheduled": "スケジュール"
+  },
+  "bandwidth": {
+    "unlimited": "無制限"
+  },
+  "actions": {
+    "edit": "編集",
+    "sync": "同期",
+    "enable": "有効化",
+    "disable": "無効化",
+    "delete": "削除"
+  },
+  "createModal": {
+    "title": "同期ルールを作成"
+  },
+  "editModal": {
+    "title": "同期ルールを編集"
+  },
+  "deleteModal": {
+    "title": "同期ルールを削除",
+    "description": "同期ルール \"{{name}}\" を削除しますか？この操作は取り消せません。"
+  },
+  "form": {
+    "name": "名前",
+    "namePlaceholder": "例：my-sync-rule",
+    "description": "説明",
+    "syncRule": "同期ルール",
+    "pull": "プル",
+    "pullHint": "リモートレジストリからローカルの MatrixHub にリソースをプルします。",
+    "push": "プッシュ",
+    "pushHint": "ローカルの MatrixHub からリモートレジストリにリソースをプッシュします。",
+    "sourceRegistry": "ソースレジストリ",
+    "sourceRegistryHint": "ここで選択する前に、レジストリ管理でレジストリを先に作成してください。",
+    "resourceFilter": "リソースフィルター",
+    "resourceName": "リソース名",
+    "resourceNamePlaceholder": "例：model-name または * で全件",
+    "resourceFilterHint": "名前でリソースをフィルタリングします。空または \"*\" で全リソースにマッチします。\"qwen/**\" は \"qwen\" 配下のリソースのみにマッチします。詳細はユーザーガイドを参照してください。",
+    "resourceTypes": {
+      "label": "リソースタイプ",
+      "model": "モデル",
+      "dataset": "データセット"
+    },
+    "targetRegistry": "ターゲットレジストリ",
+    "target": "ターゲット",
+    "targetHint": "ターゲットプロジェクトを指定します。空の場合、ソースレジストリと同じ名前のプロジェクトにリソースが配置されます。",
+    "targetProjectName": "ターゲットプロジェクト",
+    "targetProjectNamePlaceholder": "例：my-project",
+    "triggerType": "トリガーモード",
+    "bandwidth": "帯域幅制限",
+    "bandwidthHint": "この同期ルールの最大ネットワーク帯域幅を設定します。実際の総帯域幅は同時実行数によって異なります。無制限の場合は -1 を入力してください。",
+    "isOverwrite": "既存のリソースを上書き",
+    "isOverwriteHint": "同じ名前のリソースが既に存在する場合、ターゲットリソースを上書きするかどうかを制御します。"
+  },
+  "validation": {
+    "resourceTypesRequired": "少なくとも1つのリソースタイプが必要です",
+    "sourceRegistryRequired": "ソースレジストリは必須です",
+    "targetRegistryRequired": "ターゲットレジストリは必須です"
+  },
+  "notifications": {
+    "createSuccess": "同期ルールを作成しました",
+    "createError": "同期ルールの作成に失敗しました",
+    "updateSuccess": "同期ルールを更新しました",
+    "updateError": "同期ルールの更新に失敗しました",
+    "deleteSuccess": "同期ルールを削除しました",
+    "deleteError": "同期ルールの削除に失敗しました",
+    "syncSuccess": "同期タスクを開始しました",
+    "syncError": "同期タスクの開始に失敗しました"
+  },
+  "errors": {
+    "missingSyncPolicyId": "同期ポリシー ID が必要です"
+  }
+}

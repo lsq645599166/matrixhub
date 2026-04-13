@@ -46,6 +46,10 @@ export function LanguageSwitcher() {
           value: 'zh',
           label: '中文',
         },
+        {
+          value: 'ja',
+          label: '日本語',
+        },
       ]}
     />
   )
