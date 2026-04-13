@@ -1,0 +1,39 @@
+{
+  "search": "検索",
+  "refresh": "更新",
+  "batchDeleteWithCount": "選択した {{count}} 件を削除",
+  "batchDelete": "一括削除",
+  "total": "合計 {{count}} 件",
+  "sortOrderAsc": "昇順",
+  "sortOrderDesc": "降順",
+  "projectSelect": {
+    "project": "プロジェクト",
+    "projectPlaceholder": "プロジェクトを選択",
+    "projectTooltip": "非公開プロジェクト内のすべてのモデル/データセットは非公開になり、公開プロジェクト内のすべてのモデル/データセットは公開になります。"
+  },
+  "revisionSelect": {
+    "group": {
+      "branch": "ブランチ",
+      "tag": "タグ"
+    }
+  },
+  "copyValueButton": {
+    "copy": "コピー",
+    "copied": "コピーしました"
+  },
+  "commitDetail": {
+    "commit": "コミット",
+    "committedOn": "コミット日時：",
+    "emptyDiff": "差分内容がありません",
+    "loadingDiff": "差分を描画中...",
+    "diffLimitNoticeWithLink": "変更が多すぎるため、{{count}} ファイルのみ表示しています。<0>生の差分を見る</0>"
+  },
+  "commitsTable": {
+    "columns": {
+      "message": "コミットメッセージ"
+    },
+    "actions": {
+      "detail": "詳細"
+    }
+  }
+}

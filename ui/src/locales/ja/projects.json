@@ -1,0 +1,133 @@
+{
+  "detail": {
+    "tabs": {
+      "models": "モデルリポジトリ",
+      "datasets": "データセット",
+      "members": "プロジェクトメンバー",
+      "settings": "設定"
+    },
+    "modelsPage": {
+      "searchPlaceholder": "モデル名",
+      "sortFieldUpdatedAt": "更新日時",
+      "sortFieldDownloads": "ダウンロード数",
+      "create": "モデルを作成",
+      "loadFailed": "モデルの読み込みに失敗しました。後でもう一度お試しください。"
+    },
+    "settingsPage": {
+      "projectType": "プロジェクトタイプ",
+      "public": "公開",
+      "private": "非公開",
+      "proxyAddress": "プロキシアドレス",
+      "proxyOrganization": "プロキシ組織",
+      "save": "保存",
+      "cancel": "キャンセル",
+      "updateError": "プロジェクト設定の更新に失敗しました"
+    },
+    "membersPage": {
+      "searchPlaceholder": "ユーザー名",
+      "addMember": "メンバーを追加",
+      "table": {
+        "name": "名前",
+        "memberType": "メンバータイプ",
+        "roleType": "権限タイプ",
+        "actions": "操作",
+        "empty": "メンバーがいません"
+      },
+      "memberType": {
+        "user": "ユーザー",
+        "group": "グループ"
+      },
+      "role": {
+        "admin": "管理者",
+        "editor": "編集者",
+        "viewer": "閲覧者"
+      },
+      "actions": {
+        "editRole": "権限を編集",
+        "remove": "削除"
+      },
+      "addMemberModal": {
+        "title": "メンバーを追加",
+        "memberType": "メンバータイプ",
+        "user": "ユーザー",
+        "roleType": "権限タイプ"
+      },
+      "editRoleModal": {
+        "title": "権限を編集",
+        "user": "ユーザー",
+        "roleType": "権限タイプ"
+      },
+      "removeModal": {
+        "title": "メンバーを削除",
+        "message": "ユーザー {{userName}} を削除しますか？削除後、このメンバーは {{projectName}} に対する {{role}} 権限を失います。"
+      },
+      "batchRemoveModal": {
+        "title": "一括削除",
+        "message": "{{count}} 名のメンバーを削除しますか？削除後、これらのメンバーは {{projectName}} に対する対応する権限を失います。"
+      }
+    }
+  },
+  "type": {
+    "private": "非公開",
+    "public": "公開"
+  },
+  "modelCount": "モデル数",
+  "datasetCount": "データセット数",
+  "title": "プロジェクト管理",
+  "description": "共有データテーブルラッパーを使用したデモリスト。",
+  "searchPlaceholder": "プロジェクト名で検索",
+  "refresh": "更新",
+  "create": "プロジェクトを作成",
+  "table": {
+    "name": "プロジェクト名",
+    "visibility": "公開設定",
+    "proxy": "プロキシ",
+    "modelCount": "モデル",
+    "datasetCount": "データセット",
+    "updatedAt": "最終更新",
+    "actions": "操作",
+    "empty": "プロジェクトが見つかりません",
+    "loading": "プロジェクトを読み込み中...",
+    "recordsPerPage": "1ページあたりの行数",
+    "pagination": "{{total}} 件中 {{from}}〜{{to}} 件"
+  },
+  "visibility": {
+    "private": "非公開",
+    "public": "公開"
+  },
+  "boolean": {
+    "yes": "はい",
+    "no": "いいえ"
+  },
+  "createModal": {
+    "title": "プロジェクトを作成",
+    "nameLabel": "プロジェクト名",
+    "typeLabel": "タイプ",
+    "public": "公開",
+    "proxyLabel": "プロキシ",
+    "proxyEnabled": "有効",
+    "proxyDisabled": "無効",
+    "proxyHint": "プロキシを選択する前に、レジストリ管理でレジストリ（例：https://huggingface.co）を作成する必要があります。プロキシは組織またはユーザーアカウントレベルでサポートされています。モデルパスが org/model の場合（例：Qwen/Qwen3.5-35B-A3B）、組織名（Qwen）を入力します。個人モデルの場合はユーザー名を入力します。",
+    "registryLabel": "レジストリ",
+    "organizationLabel": "組織 / ユーザー",
+    "organizationPlaceholder": "例：Qwen",
+    "createFailed": "プロジェクトの作成に失敗しました"
+  },
+  "deleteModal": {
+    "title": "プロジェクトを削除",
+    "message": "\"{{name}}\" を削除しますか？",
+    "deleteFailed": "プロジェクトの削除に失敗しました"
+  },
+  "actions": {
+    "delete": "削除",
+    "cancel": "キャンセル",
+    "confirm": "確認"
+  },
+  "validation": {
+    "nameRequired": "プロジェクト名は必須です",
+    "nameMinLength": "プロジェクト名は2文字以上である必要があります",
+    "nameFormat": "小文字の英字、数字、ハイフンのみ使用できます。英字または数字で始まり、終わる必要があります。",
+    "organizationRequired": "プロキシを有効にする場合は組織またはユーザーが必須です",
+    "registryRequired": "プロキシを有効にする場合はレジストリが必須です"
+  }
+}

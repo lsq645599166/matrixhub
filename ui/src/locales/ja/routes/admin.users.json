@@ -1,0 +1,76 @@
+{
+  "title": "ユーザー管理",
+  "searchPlaceholder": "ユーザー名で検索",
+  "toolbar": {
+    "create": "ユーザーを作成"
+  },
+  "form": {
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "confirmPassword": "パスワードの確認",
+    "isAdmin": "管理者に設定"
+  },
+  "table": {
+    "username": "ユーザー名",
+    "admin": "プラットフォーム管理者",
+    "source": "ソース",
+    "createdAt": "作成日時",
+    "actions": "操作",
+    "empty": "ユーザーが見つかりません"
+  },
+  "boolean": {
+    "yes": "はい",
+    "no": "いいえ"
+  },
+  "source": {
+    "local": "組み込み"
+  },
+  "actions": {
+    "setAdmin": "管理者に設定",
+    "revokeAdmin": "管理者権限を取消",
+    "resetPassword": "パスワードをリセット",
+    "delete": "削除"
+  },
+  "createModal": {
+    "title": "ユーザーを作成"
+  },
+  "resetPasswordModal": {
+    "title": "パスワードをリセット",
+    "submit": "パスワードをリセット"
+  },
+  "deleteModal": {
+    "title": "ユーザーを削除",
+    "description": "{{username}} を削除しますか？この操作は取り消せません。",
+    "submit": "削除"
+  },
+  "batchDeleteModal": {
+    "title": "選択したユーザーを削除",
+    "description": "{{usernames}} を含む {{count}} 名のユーザーを削除しますか？",
+    "submit": "{{count}} 名のユーザーを削除"
+  },
+  "validation": {
+    "usernameRequired": "ユーザー名は必須です",
+    "passwordRequired": "パスワードは必須です",
+    "confirmPasswordRequired": "パスワードを確認してください",
+    "passwordMismatch": "パスワードが一致しません"
+  },
+  "notifications": {
+    "createSuccess": "ユーザーを作成しました",
+    "createError": "ユーザーの作成に失敗しました",
+    "setAdminSuccess": "管理者権限を付与しました",
+    "setAdminError": "管理者権限の付与に失敗しました",
+    "revokeAdminSuccess": "管理者権限を取り消しました",
+    "revokeAdminError": "管理者権限の取消に失敗しました",
+    "resetPasswordSuccess": "パスワードをリセットしました",
+    "resetPasswordError": "パスワードのリセットに失敗しました",
+    "deleteSuccess": "ユーザーを削除しました",
+    "deleteError": "ユーザーの削除に失敗しました",
+    "batchDeleteSuccess": "選択したユーザーを削除しました",
+    "batchDeleteError": "選択したユーザーの削除に失敗しました",
+    "batchDeletePartialError": "{{successCount}} 名を削除しました。{{failureCount}} 名の削除に失敗しました"
+  },
+  "errors": {
+    "missingUserId": "ユーザー ID がありません",
+    "noUsersSelected": "削除するユーザーが選択されていません"
+  }
+}

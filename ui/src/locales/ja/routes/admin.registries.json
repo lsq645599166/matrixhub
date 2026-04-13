@@ -1,0 +1,77 @@
+{
+  "title": "レジストリ管理",
+  "searchPlaceholder": "レジストリ名で検索",
+  "toolbar": {
+    "create": "レジストリを作成"
+  },
+  "provider": {
+    "huggingFace": "Hugging Face"
+  },
+  "form": {
+    "provider": "プロバイダー",
+    "name": "レジストリ名",
+    "description": "説明",
+    "url": "ターゲット URL",
+    "urlPlaceholder": "http://docker.m.daocloud.io",
+    "username": "ユーザー名",
+    "usernameHint": "プライベートモデルをプルする際に上流レジストリのユーザー名とパスワードを入力してください。",
+    "password": "パスワード",
+    "verifyRemoteCert": "リモート証明書を検証",
+    "verifyRemoteCertHint": "同期時にリモート MatrixHub インスタンスの証明書を検証するかどうかを選択します。リモートインスタンスが自己署名証明書または信頼されていない証明書を使用している場合はチェックを外してください。",
+    "testConnection": "接続テスト"
+  },
+  "table": {
+    "name": "レジストリ",
+    "status": "ステータス",
+    "url": "URL",
+    "type": "プロバイダー",
+    "insecure": "リモート証明書の検証",
+    "credential": "認証情報",
+    "createdAt": "作成日時",
+    "actions": "操作",
+    "empty": "レジストリが見つかりません"
+  },
+  "status": {
+    "healthy": "正常",
+    "unhealthy": "異常"
+  },
+  "insecure": {
+    "verified": "検証済み",
+    "unverified": "未検証"
+  },
+  "credential": {
+    "basic": "basic"
+  },
+  "actions": {
+    "edit": "編集",
+    "delete": "削除"
+  },
+  "createModal": {
+    "title": "レジストリを作成"
+  },
+  "editModal": {
+    "title": "レジストリを編集"
+  },
+  "deleteModal": {
+    "title": "レジストリを削除",
+    "description": "レジストリ {{name}} を削除しますか？"
+  },
+  "validation": {
+    "nameLength": "レジストリ名は {{min}}〜{{max}} 文字である必要があります",
+    "urlRequired": "ターゲット URL は必須です",
+    "urlInvalid": "有効な URL を入力してください"
+  },
+  "notifications": {
+    "createSuccess": "レジストリを作成しました",
+    "createError": "レジストリの作成に失敗しました",
+    "updateSuccess": "レジストリを更新しました",
+    "updateError": "レジストリの更新に失敗しました",
+    "deleteSuccess": "レジストリを削除しました",
+    "deleteError": "レジストリの削除に失敗しました",
+    "pingSuccess": "接続テストに成功しました",
+    "pingError": "接続テストに失敗しました"
+  },
+  "errors": {
+    "missingRegistryId": "レジストリ ID がありません"
+  }
+}

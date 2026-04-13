@@ -1,0 +1,61 @@
+{
+  "new": "モデルを新規作成",
+  "list": {
+    "project": "プロジェクト",
+    "library": "ライブラリ",
+    "task": "タスク",
+    "placeholder": {
+      "modelName": "モデル名",
+      "task": "タスク名で検索",
+      "library": "ライブラリ名で検索",
+      "project": "プロジェクト名で検索"
+    },
+    "recommend": "おすすめモデル",
+    "allModels": "すべてのモデル",
+    "viewMore": "もっと見る",
+    "collapse": "折りたたむ"
+  },
+  "detail": {
+    "upload": "モデルファイルをアップロード",
+    "download": "モデルをダウンロード",
+    "desc": "モデル紹介",
+    "tree": "モデルファイル",
+    "setting": "設定",
+    "history": "コミット履歴"
+  },
+  "settings": {
+    "delete": {
+      "title": "モデルを削除",
+      "warning": "この操作は取り消せません。{{name}} モデルリポジトリとすべてのファイル（重みを含む）が完全に削除されます。",
+      "confirmation": "{{name}} を入力してください",
+      "action": "モデルを削除",
+      "success": "モデルを削除しました",
+      "error": "モデルの削除に失敗しました"
+    },
+    "recommended": {
+      "title": "注目モデル",
+      "set": {
+        "label": "注目モデルとしてマーク",
+        "confirmation": "モデル {{name}} を注目モデルとしてマークしますか？",
+        "success": "モデルを注目モデルとしてマークしました",
+        "error": "注目モデルへのマークに失敗しました"
+      },
+      "unset": {
+        "label": "注目モデルから解除",
+        "confirmation": "{{name}} を注目モデルから解除しますか？",
+        "success": "モデルを注目モデルから解除しました",
+        "error": "注目モデルからの解除に失敗しました"
+      }
+    }
+  },
+  "create": {
+    "modelName": "モデル名",
+    "modelNamePlaceholder": "モデル名を入力",
+    "modelNameHelper": "英字、数字、アンダースコア、ハイフン、ドットが使用できます。英字または数字で始まる必要があります。",
+    "submit": "モデルを作成",
+    "uploadTip": "モデル作成後、コマンドラインを使用してファイルをアップロードできます。",
+    "modelNameInvalid": "モデル名の形式が無効です",
+    "success": "モデルを作成しました",
+    "error": "モデルの作成に失敗しました"
+  }
+}

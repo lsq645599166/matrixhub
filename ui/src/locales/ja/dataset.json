@@ -1,0 +1,9 @@
+{
+  "uploadFiles": "データセットファイルをアップロード",
+  "downloadDataset": "データセットをダウンロード",
+  "detail": {
+    "desc": "データセット紹介",
+    "tree": "データセットファイル",
+    "setting": "設定"
+  }
+}

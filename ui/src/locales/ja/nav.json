@@ -1,0 +1,10 @@
+{
+  "models": "モデル",
+  "datasets": "データセット",
+  "projectManagement": "プロジェクト",
+  "profile": "プロフィール",
+  "logout": "ログアウト",
+  "createModel": "モデルを作成",
+  "createDataset": "データセットを作成",
+  "settings": "プラットフォーム設定"
+}

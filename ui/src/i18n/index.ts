@@ -6,7 +6,7 @@ import { setDayjsLocale } from '@/i18n/dayjs.ts'
 
 import { loadLocale } from './loadLocale'
 
-export const SUPPORTED_LANGUAGES = ['en', 'zh'] as const
+export const SUPPORTED_LANGUAGES = ['en', 'zh', 'ja'] as const
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number]
 
 export const DEFAULT_LANGUAGE: SupportedLanguage = 'en'
