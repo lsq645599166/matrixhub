@@ -8,8 +8,9 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
+    lng: 'ja',
     fallbackLng: 'en',
-    supportedLngs: ['en', 'zh'],
+    supportedLngs: ['en', 'zh', 'ja'],
     interpolation: { escapeValue: false },
   })
 

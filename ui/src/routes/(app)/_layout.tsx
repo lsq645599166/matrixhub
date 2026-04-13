@@ -5,6 +5,8 @@ import {
   ScrollArea,
   Stack,
   Text,
+  Select,
+  Group,
 } from '@mantine/core'
 import {
   createFileRoute,
@@ -15,6 +17,12 @@ import {
 } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+
+const LANGUAGE_OPTIONS = [
+  { value: 'en', label: 'English' },
+  { value: 'zh', label: '中文' },
+  { value: 'ja', label: '日本語' },
+]
 
 export const Route = createFileRoute('/(app)/_layout')({
   component: AppLayout,
@@ -64,7 +72,7 @@ function AppNavbar() {
 }
 
 function AppLayout() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   return (
     <AppShell
       padding="md"
@@ -75,7 +83,16 @@ function AppLayout() {
       }}
     >
       <AppShell.Header p="md">
-        <Title order={2}>{t('translation.title')}</Title>
+        <Group justify="space-between" h="100%">
+          <Title order={2}>{t('translation.title')}</Title>
+          <Select
+            data={LANGUAGE_OPTIONS}
+            value={i18n.language}
+            onChange={value => value && i18n.changeLanguage(value)}
+            w={130}
+            allowDeselect={false}
+          />
+        </Group>
       </AppShell.Header>
 
       <AppShell.Navbar>
