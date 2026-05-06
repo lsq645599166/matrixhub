@@ -1,6 +1,28 @@
+import {
+  RobotAccountProjectScope,
+  type GetRobotAccountResponse,
+} from '@matrixhub/api-ts/v1alpha1/robot.pb'
 import { z } from 'zod'
 
 import i18n from '@/i18n'
+
+export const ROBOT_DESCRIPTION_MAX_LENGTH = 50
+export const DEFAULT_ROBOT_EXPIRE_DAYS = 30
+
+export const robotProjectScopeSchema = z.enum([
+  RobotAccountProjectScope.ROBOT_ACCOUNT_PROJECT_SCOPE_ALL,
+  RobotAccountProjectScope.ROBOT_ACCOUNT_PROJECT_SCOPE_SELECTED,
+])
+
+export const robotAccountFormSchema = z.object({
+  name: z.string().trim().min(1, 'Name is required'),
+  description: z.string().max(ROBOT_DESCRIPTION_MAX_LENGTH, `Description must be at most ${ROBOT_DESCRIPTION_MAX_LENGTH} characters`),
+  expireDays: z.number().int().min(1, 'Expire days must be at least 1').optional(),
+  platformPermissions: z.array(z.string()),
+  projectPermissions: z.array(z.string()),
+  projectScope: robotProjectScopeSchema,
+  projects: z.array(z.string()),
+})
 
 export const refreshRobotTokenFormDefaults = {
   autoGenerate: true,
@@ -46,4 +68,23 @@ export const refreshRobotTokenSchema = z.object({
   }
 })
 
+export type RobotAccountFormValues = z.infer<typeof robotAccountFormSchema>
 export type RefreshRobotTokenFormValues = z.infer<typeof refreshRobotTokenSchema>
+
+export function getRobotAccountFormDefaults(
+  robot?: GetRobotAccountResponse,
+): RobotAccountFormValues {
+  const expireDays = robot?.expireDays && robot.expireDays > 0
+    ? robot.expireDays
+    : undefined
+
+  return {
+    name: robot?.name?.replace(/^robot\$/, '') ?? '',
+    description: robot?.description ?? '',
+    expireDays,
+    platformPermissions: robot?.platformPermissions ?? [],
+    projectPermissions: robot?.projectPermissions ?? [],
+    projectScope: robot?.projectScope ?? RobotAccountProjectScope.ROBOT_ACCOUNT_PROJECT_SCOPE_ALL,
+    projects: robot?.projects ?? [],
+  }
+}
