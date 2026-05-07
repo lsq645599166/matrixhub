@@ -16,20 +16,33 @@ export const robotProjectScopeSchema = z.enum([
   RobotAccountProjectScope.ROBOT_ACCOUNT_PROJECT_SCOPE_SELECTED,
 ])
 
+export const robotExpiryModeSchema = z.enum(['never', 'days'])
+
 export const createRobotAccountFormSchema = (t: TFunction) => z.object({
   name: z.string().trim().min(1, t('common.validation.fieldRequired', { field: t('routes.admin.robots.fields.name') })),
   description: z.string().max(ROBOT_DESCRIPTION_MAX_LENGTH, t('common.validation.maxLength', {
     max: ROBOT_DESCRIPTION_MAX_LENGTH,
-    label: t('routes.admin.robots.fields.description'),
+    field: t('routes.admin.robots.fields.description'),
   })),
-  expireDays: z.number().int().min(1, t('common.validation.min', {
+  expiryMode: robotExpiryModeSchema,
+  expireDays: z.number().int().min(1, t('common.validation.minLength', {
     min: 1,
-    label: t('routes.admin.robots.fields.expiry'),
+    field: t('routes.admin.robots.fields.expiry'),
   })).optional(),
   platformPermissions: z.array(z.string()),
   projectPermissions: z.array(z.string()),
   projectScope: robotProjectScopeSchema,
   projects: z.array(z.string()),
+}).superRefine((value, ctx) => {
+  if (value.expiryMode === 'days' && value.expireDays == null) {
+    ctx.addIssue({
+      code: 'custom',
+      message: t('common.validation.fieldRequired', {
+        field: t('routes.admin.robots.fields.expiry'),
+      }),
+      path: ['expireDays'],
+    })
+  }
 })
 
 export const refreshRobotTokenFormDefaults = {
@@ -82,14 +95,11 @@ export type RefreshRobotTokenFormValues = z.infer<typeof refreshRobotTokenSchema
 export function getRobotAccountFormDefaults(
   robot?: GetRobotAccountResponse,
 ): RobotAccountFormValues {
-  const expireDays = robot?.expireDays && robot.expireDays > 0
-    ? robot.expireDays
-    : undefined
-
   return {
     name: robot?.name?.replace(/^robot\$/, '') ?? '',
     description: robot?.description ?? '',
-    expireDays,
+    expiryMode: robot?.expireDays === 0 ? 'never' : 'days',
+    expireDays: robot?.expireDays || DEFAULT_ROBOT_EXPIRE_DAYS,
     platformPermissions: robot?.platformPermissions ?? [],
     projectPermissions: robot?.projectPermissions ?? [],
     projectScope: robot?.projectScope ?? RobotAccountProjectScope.ROBOT_ACCOUNT_PROJECT_SCOPE_ALL,

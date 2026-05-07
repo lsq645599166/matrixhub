@@ -44,7 +44,6 @@ import {
   useRobotProjects,
 } from '../robot.query'
 import {
-  DEFAULT_ROBOT_EXPIRE_DAYS,
   ROBOT_DESCRIPTION_MAX_LENGTH,
   type RobotAccountFormValues,
   createRobotAccountFormSchema,
@@ -106,10 +105,6 @@ export function RobotAccountForm({
   const [createdRobotName, setCreatedRobotName] = useState('')
   const [createdToken, setCreatedToken] = useState('')
   const [tokenOpened, tokenHandlers] = useDisclosure(false)
-  const initialExpiryMode = defaultValues.expireDays != null && defaultValues.expireDays > 0
-    ? 'days'
-    : 'never'
-  const [expiryMode, setExpiryMode] = useState<'never' | 'days'>(initialExpiryMode)
 
   const projectOptions = useMemo(() => {
     const uniqueNames = Array.from(new Set(
@@ -134,6 +129,19 @@ export function RobotAccountForm({
   )
 
   const robotAccountFormSchema = createRobotAccountFormSchema(t)
+  const getRobotAccountFieldIssue = (
+    fieldName: keyof RobotAccountFormValues,
+    values: RobotAccountFormValues,
+  ) => {
+    const result = robotAccountFormSchema.safeParse(values)
+
+    if (result.success) {
+      return undefined
+    }
+
+    return result.error.issues.find(issue => issue.path[0] === fieldName)?.message
+  }
+
   const form = useForm({
     defaultValues,
     validators: {
@@ -144,9 +152,7 @@ export function RobotAccountForm({
         const response = await createMutation.mutateAsync({
           name: value.name.trim(),
           description: value.description.trim(),
-          expireDays: expiryMode === 'days'
-            ? (value.expireDays ?? DEFAULT_ROBOT_EXPIRE_DAYS)
-            : undefined,
+          expireDays: value.expiryMode === 'days' ? value.expireDays : undefined,
           platformPermissions: value.platformPermissions,
           projectPermissions: value.projectPermissions,
           projects: value.projectScope === RobotAccountProjectScope.ROBOT_ACCOUNT_PROJECT_SCOPE_SELECTED ? value.projects : [],
@@ -163,9 +169,7 @@ export function RobotAccountForm({
       await updateMutation.mutateAsync({
         id: robot?.id,
         description: value.description.trim(),
-        expireDays: expiryMode === 'days'
-          ? (value.expireDays ?? DEFAULT_ROBOT_EXPIRE_DAYS)
-          : undefined,
+        expireDays: value.expiryMode === 'days' ? value.expireDays : undefined,
         platformPermissions: value.platformPermissions,
         projectPermissions: value.projectPermissions,
         projects: value.projectScope === RobotAccountProjectScope.ROBOT_ACCOUNT_PROJECT_SCOPE_SELECTED ? value.projects : [],
@@ -179,7 +183,6 @@ export function RobotAccountForm({
   })
 
   const isMutating = createMutation.isPending || updateMutation.isPending
-  const isExpiryModeDirty = expiryMode !== initialExpiryMode
 
   const handleBack = async () => {
     await navigate({
@@ -273,52 +276,73 @@ export function RobotAccountForm({
                 )}
               </form.Field>
 
-              <Radio.Group
-                label={t('routes.admin.robots.fields.expiry')}
-                withAsterisk
-                value={expiryMode}
-                onChange={value => setExpiryMode(value as 'never' | 'days')}
-              >
-                <Group mt="xs">
-                  <Radio
-                    value="never"
-                    label={t('routes.admin.robots.expiry.never')}
-                  />
-                  <Radio
-                    value="days"
-                    label={t('routes.admin.robots.expiry.days')}
-                  />
-                </Group>
-              </Radio.Group>
+              <form.Field name="expiryMode">
+                {field => (
+                  <Radio.Group
+                    label={t('routes.admin.robots.fields.expiry')}
+                    value={field.state.value}
+                    onChange={value => field.handleChange(value as RobotAccountFormValues['expiryMode'])}
+                  >
+                    <Group mt="xs">
+                      <Radio
+                        value="never"
+                        label={t('routes.admin.robots.expiry.never')}
+                      />
+                      <Radio
+                        value="days"
+                        label={t('routes.admin.robots.expiry.days')}
+                      />
+                    </Group>
+                  </Radio.Group>
+                )}
+              </form.Field>
 
-              {expiryMode === 'days' && (
-                <form.Field name="expireDays">
-                  {field => (
-                    <NumberInput
-                      hideControls
-                      w={160}
-                      rightSection={t('routes.admin.robots.fields.dayUnit')}
-                      rightSectionWidth={rem(38)}
-                      styles={{
-                        input: {
-                          paddingRight: rem(38),
+              <form.Subscribe selector={state => state.values.expiryMode}>
+                {expiryMode => expiryMode === 'days' && (
+                  <form.Field
+                    name="expireDays"
+                    validators={{
+                      onChange: ({
+                        value,
+                        fieldApi,
+                      }) => getRobotAccountFieldIssue(
+                        'expireDays',
+                        {
+                          ...fieldApi.form.state.values,
+                          expireDays: value,
                         },
-                        section: {
-                          backgroundColor: 'var(--mantine-color-gray-1)',
-                          borderLeft: '1px solid var(--mantine-color-gray-3)',
-                          color: 'var(--mantine-color-gray-6)',
-                          fontSize: rem(14),
-                        },
-                      }}
-                      disabled={expiryMode !== 'days'}
-                      value={field.state.value}
-                      onChange={value => field.handleChange(typeof value === 'number' ? value : undefined)}
-                      onBlur={field.handleBlur}
-                      error={fieldError(field)}
-                    />
-                  )}
-                </form.Field>
-              )}
+                      ),
+                      onChangeListenTo: ['expiryMode'],
+                    }}
+                  >
+                    {field => (
+                      <NumberInput
+                        required
+                        hideControls
+                        min={1}
+                        w={160}
+                        rightSection={t('routes.admin.robots.fields.dayUnit')}
+                        rightSectionWidth={rem(38)}
+                        styles={{
+                          input: {
+                            paddingRight: rem(38),
+                          },
+                          section: {
+                            backgroundColor: 'var(--mantine-color-gray-1)',
+                            borderLeft: '1px solid var(--mantine-color-gray-3)',
+                            color: 'var(--mantine-color-gray-6)',
+                            fontSize: rem(14),
+                          },
+                        }}
+                        value={field.state.value}
+                        onChange={value => field.handleChange(typeof value === 'number' ? value : undefined)}
+                        onBlur={field.handleBlur}
+                        error={fieldError(field)}
+                      />
+                    )}
+                  </form.Field>
+                )}
+              </form.Subscribe>
             </Stack>
 
             {renderPermissionSection(
@@ -392,12 +416,24 @@ export function RobotAccountForm({
                 {t('common.cancel')}
               </Button>
 
-              <form.Subscribe selector={state => [state.canSubmit, state.isSubmitting, state.isPristine]}>
-                {([canSubmit, isSubmitting, isPristine]) => (
+              <form.Subscribe selector={state => ({
+                isPristine: state.isPristine,
+                isSubmitting: state.isSubmitting,
+                values: state.values,
+              })}
+              >
+                {({
+                  isPristine,
+                  isSubmitting,
+                  values,
+                }) => (
                   <Button
                     type="submit"
                     loading={isSubmitting}
-                    disabled={!canSubmit || (mode === 'edit' && isPristine && !isExpiryModeDirty)}
+                    disabled={
+                      !robotAccountFormSchema.safeParse(values).success
+                      || (mode === 'edit' && isPristine)
+                    }
                   >
                     {t('common.confirm')}
                   </Button>
