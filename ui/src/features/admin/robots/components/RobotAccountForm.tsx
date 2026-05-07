@@ -47,7 +47,7 @@ import {
   DEFAULT_ROBOT_EXPIRE_DAYS,
   ROBOT_DESCRIPTION_MAX_LENGTH,
   type RobotAccountFormValues,
-  robotAccountFormSchema,
+  createRobotAccountFormSchema,
 } from '../robot.schema'
 import {
   getPlatformPermissionCategories,
@@ -106,9 +106,10 @@ export function RobotAccountForm({
   const [createdRobotName, setCreatedRobotName] = useState('')
   const [createdToken, setCreatedToken] = useState('')
   const [tokenOpened, tokenHandlers] = useDisclosure(false)
-  const [expiryMode, setExpiryMode] = useState<'never' | 'days'>(
-    defaultValues.expireDays != null && defaultValues.expireDays > 0 ? 'days' : 'never',
-  )
+  const initialExpiryMode = defaultValues.expireDays != null && defaultValues.expireDays > 0
+    ? 'days'
+    : 'never'
+  const [expiryMode, setExpiryMode] = useState<'never' | 'days'>(initialExpiryMode)
 
   const projectOptions = useMemo(() => {
     const uniqueNames = Array.from(new Set(
@@ -132,6 +133,7 @@ export function RobotAccountForm({
     [permissionsResponse?.projectCategories],
   )
 
+  const robotAccountFormSchema = createRobotAccountFormSchema(t)
   const form = useForm({
     defaultValues,
     validators: {
@@ -177,6 +179,7 @@ export function RobotAccountForm({
   })
 
   const isMutating = createMutation.isPending || updateMutation.isPending
+  const isExpiryModeDirty = expiryMode !== initialExpiryMode
 
   const handleBack = async () => {
     await navigate({
@@ -293,8 +296,7 @@ export function RobotAccountForm({
                   {field => (
                     <NumberInput
                       hideControls
-                      min={1}
-                      max={3650}
+                      w={160}
                       rightSection={t('routes.admin.robots.fields.dayUnit')}
                       rightSectionWidth={rem(38)}
                       styles={{
@@ -395,7 +397,7 @@ export function RobotAccountForm({
                   <Button
                     type="submit"
                     loading={isSubmitting}
-                    disabled={!canSubmit || (mode === 'edit' && isPristine)}
+                    disabled={!canSubmit || (mode === 'edit' && isPristine && !isExpiryModeDirty)}
                   >
                     {t('common.confirm')}
                   </Button>
@@ -439,7 +441,7 @@ export function RobotAccountForm({
                   <Accordion
                     key={category.key}
                     variant="unstyled"
-                    chevronPosition="right"
+                    chevronPosition="left"
                   >
                     <Accordion.Item value={category.key} bd="none">
                       <Accordion.Control
@@ -487,9 +489,9 @@ export function RobotAccountForm({
                       <Accordion.Panel px="sm" py="sm">
                         <SimpleGrid
                           cols={{
-                            base: 1,
-                            sm: 2,
-                            lg: 3,
+                            base: 2,
+                            sm: 3,
+                            lg: 4,
                           }}
                         >
                           {category.permissions.map(permission => (
